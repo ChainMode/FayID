@@ -12,7 +12,7 @@ Le système FayID s'organise autour de quatre catégories de sujets fondamentaux
 
 | Sujet | Description |
 | --- | --- |
-| **Human Prototype** | Une personne réelle dans le monde physique. Chaque human prototype détient un Human ID unique comme identité racine, sauvegardée par un Mnemonic. |
+| **Personne physique (Human Prototype)** | Une personne réelle dans le monde physique. Chaque personne physique détient un Human ID unique comme identité racine, sauvegardée par un Mnemonic. |
 | **Persona numérique (iFay)** | Un persona IA qu'une personne physique crée dans l'écosystème iFay. Une personne peut posséder plusieurs iFay ; chaque iFay porte son propre iFay ID, mais chaque iFay est rattaché au même Human ID. |
 | **Rôle public (coFay)** | Un rôle public partagé qui peut être créé et possédé par un individu ou une organisation. Chaque coFay possède son propre coFay ID et son Verification Code. |
 | **Organisation** | Une entreprise, équipe ou autre entité juridique. Un Organization ID est publié en clair et ne nécessite pas de protection par Dynamic Code. |
@@ -35,7 +35,7 @@ Le Global Merit Chain est la vision à long terme de l'écosystème iFay : un sy
 
 - Les iFay IDs, coFay IDs et Organization IDs servent d'identifiants de sujet en clair pour les enregistrements de réputation et sont visibles on-chain.
 - La réputation d'une personne physique est associée indirectement par une référence irréversible, préservant la continuité de la réputation tout en protégeant l'identité racine.
-- Les primitives d'identification, de propriété et de révocation fournies par FayID sont des prérequis au fonctionnement du Global Merit Chain.
+- Les opérations de base d'identification, de propriété et de révocation fournies par FayID sont des prérequis au fonctionnement du Global Merit Chain.
 
 > FayID n'est pas le Global Merit Chain lui-même ; c'est la couche d'identité fondamentale qui se trouve en dessous. Sans un système d'identité stable, vérifiable et préservant la confidentialité, les enregistrements de réputation n'ont aucun point d'ancrage.
 

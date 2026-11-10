@@ -43,7 +43,7 @@ Eine Organization ID identifiziert eine organisatorische Entität. Kernregeln:
 - Wird öffentlich in **Klartext-Form** verwendet
 - **Leitet keinen** Dynamic Code ab (kein Datenschutz erforderlich)
 - Kann mehrere coFay IDs besitzen
-- Der Resolver kann die entsprechende Organisationsentität direkt aus der Organization-ID-Zeichenkette zurückgeben, ohne dass zusätzliche Anmeldedaten erforderlich sind
+- Der Resolver kann die entsprechende Organisationsentität direkt aus der Organization-ID-Zeichenkette zurückgeben, ohne dass zusätzliche Nachweise erforderlich sind
 
 ---
 

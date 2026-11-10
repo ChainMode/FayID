@@ -1,14 +1,14 @@
-# Kapitel 4: Anmeldedaten und Lebenszyklus
+# Kapitel 4: Nachweise und Lebenszyklus
 
-Dieses Kapitel beschreibt, wie die vier Arten von Anmeldedaten im FayID-System erzeugt werden, die Regeln für ihre Gültigkeit, die Rotationsmechanismen und die Semantik des Widerrufs.
+Dieses Kapitel beschreibt, wie die vier Arten von Nachweisen im FayID-System erzeugt werden, die Regeln für ihre Gültigkeit, die Rotationsmechanismen und die Semantik des Widerrufs.
 
 ---
 
-## Überblick über die Anmeldedaten
+## Überblick über die Nachweise
 
-Das FayID-System kennt vier Arten von Anmeldedaten, die jeweils einem eigenen Zweck dienen:
+Das FayID-System kennt vier Arten von Nachweisen, die jeweils einem eigenen Zweck dienen:
 
-| Anmeldedaten | Zweck | Lebenszyklus-Eigenschaften |
+| Nachweis | Zweck | Lebenszyklus-Eigenschaften |
 | --- | --- | --- |
 | **Mnemonic** | Menschenlesbares Backup des privaten Schlüssels einer Human ID | Wird einmal bei der Erzeugung zurückgegeben; niemals persistiert |
 | **Dynamic Code** | Ersatz für eine Human ID im öffentlichen Austausch | Zeitlich begrenzt; rotiert bei Ablauf |

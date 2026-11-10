@@ -1,4 +1,4 @@
-# Chapitre 5 : Auth Exchange
+# Chapitre 5 : Échange d'authentification
 
 Ce chapitre décrit comment FayID interopère avec l'authentification traditionnelle : en échangeant des justificatifs traditionnels tels que nom d'utilisateur/mot de passe, certificats, autorisations, access tokens et smart contracts contre un Authorization Grant, de sorte qu'un utilisateur puisse accéder à un large éventail de ressources protégées en présentant uniquement son FayID (ou son Dynamic Code).
 

@@ -12,7 +12,7 @@ El sistema FayID se organiza en torno a cuatro tipos de sujetos centrales:
 
 | Sujeto | Descripción |
 | --- | --- |
-| **Human Prototype** | Una persona real del mundo físico. Cada Human Prototype posee un Human ID único como identidad raíz, respaldado por un Mnemonic. |
+| **Persona física (Human Prototype)** | Una persona real del mundo físico. Cada persona física posee un Human ID único como identidad raíz, respaldado por un Mnemonic. |
 | **Persona digital (iFay)** | Una persona basada en IA que una persona natural crea dentro del ecosistema iFay. Una persona puede poseer múltiples iFays; cada iFay tiene su propio iFay ID, pero todo iFay queda vinculado al mismo Human ID. |
 | **Rol público (coFay)** | Un rol compartido y público que puede ser creado y poseído por una persona individual o una organización. Cada coFay tiene su propio coFay ID y Verification Code. |
 | **Organización** | Una empresa, equipo u otra entidad jurídica. Un Organization ID se publica en texto plano y no requiere protección mediante Dynamic Code. |
@@ -35,7 +35,7 @@ El Global Merit Chain es la visión a largo plazo del ecosistema iFay: un sistem
 
 - Los iFay IDs, coFay IDs y Organization IDs sirven como identificadores públicos de los sujetos de los registros de reputación y son visibles on-chain.
 - La reputación de una persona natural se asocia indirectamente mediante una referencia irreversible, preservando la continuidad de la reputación a la vez que se protege la identidad raíz.
-- Las primitivas de identificación, titularidad y revocación que proporciona FayID son requisitos previos para que el Global Merit Chain funcione.
+- Las operaciones básicas de identificación, titularidad y revocación que proporciona FayID son requisitos previos para que el Global Merit Chain funcione.
 
 > FayID no es el Global Merit Chain en sí mismo; es la capa de identidad fundamental que lo sustenta. Sin un sistema de identidad estable, verificable y respetuoso con la privacidad, los registros de reputación no tendrían a qué anclarse.
 

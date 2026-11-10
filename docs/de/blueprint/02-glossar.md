@@ -17,7 +17,7 @@ Dieses Kapitel führt die gesamte im FayID-System verwendete Terminologie zusamm
 | **coFay ID** | Die Identität einer öffentlichen coFay-Rolle. Muss entweder von einer Human ID oder einer Organization ID besessen werden. |
 | **Organization ID** | Die Identität einer Organisation innerhalb des FayID-Systems. Wird im Klartext veröffentlicht und benötigt keinen abgeleiteten Dynamic Code. |
 
-## Anmeldedaten und abgeleitete Werte
+## Nachweise und abgeleitete Werte
 
 | Begriff | Definition |
 | --- | --- |
@@ -30,7 +30,7 @@ Dieses Kapitel führt die gesamte im FayID-System verwendete Terminologie zusamm
 
 | Begriff | Definition |
 | --- | --- |
-| **Issuer** | Die logische Komponente innerhalb des FayID-Systems, die für das Erzeugen, Rotieren und Widerrufen von Bezeichnern und Anmeldedaten zuständig ist. |
+| **Issuer** | Die logische Komponente innerhalb des FayID-Systems, die für das Erzeugen, Rotieren und Widerrufen von Bezeichnern und Nachweisen zuständig ist. |
 | **Resolver** | Die logische Komponente, die ein Klartext-Anmeldedatum (Dynamic Code, Verification Code oder ID-String) zurück zur entsprechenden Entität auflöst. |
 | **Auth Exchange** | Die logische Komponente, die zwischen FayID und traditionellen Authentifizierungsverfahren (Passwort, Zertifikat, Autorisierung, Access Token, Smart Contract) austauscht. |
 | **GMC Interface** | Die logische Grenzkomponente, über die das FayID System mit der Global Merit Chain interagiert. Stellt nur Read-Only-Methoden bereit; umgekehrte Schreibzugriffe von Human IDs oder Material privater Schlüssel sind verboten. |
