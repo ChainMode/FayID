@@ -85,7 +85,7 @@ Permitir que un usuario persona natural reclame todos los Grants bajo su identid
 ```mermaid
 sequenceDiagram
   autonumber
-  participant U as Human Prototype
+  participant U as Human Prime
   participant AEX as Auth Exchange
   participant RES as Resolver
 

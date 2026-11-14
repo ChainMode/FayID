@@ -85,7 +85,7 @@ Permettre à un utilisateur personne physique de récupérer chaque Grant rattac
 ```mermaid
 sequenceDiagram
   autonumber
-  participant U as Human Prototype
+  participant U as Human Prime
   participant AEX as Auth Exchange
   participant RES as Resolver
 

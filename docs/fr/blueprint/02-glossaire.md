@@ -11,8 +11,8 @@ Ce chapitre regroupe l'ensemble de la terminologie utilisée dans le système Fa
 | Terme | Définition |
 | --- | --- |
 | **FayID System** | Le système d'identité global défini par cette spécification, comprenant les composants logiques Issuer, Resolver, Auth Exchange, GMC Interface, Serializer, Parser, et d'autres. |
-| **Human ID** | L'identité racine d'une personne physique au sein du système FayID. Dérivée d'une paire de clés, associée à un Mnemonic, et détenue exclusivement par un seul Human Prototype. |
-| **Human Prototype** | La personne physique réelle associée en correspondance un-à-un avec un Human ID. |
+| **Human ID** | L'identité racine d'une personne physique au sein du système FayID. Dérivée d'une paire de clés, associée à un Mnemonic, et détenue exclusivement par un seul Human Prime. |
+| **Human Prime** | La personne physique réelle associée en correspondance un-à-un avec un Human ID. |
 | **iFay ID** | L'identité d'un seul persona numérique iFay. Doit être lié à exactement un Human ID, bien qu'un même Human ID puisse lier plusieurs iFay IDs. |
 | **coFay ID** | L'identité d'un rôle public coFay. Doit être détenu soit par un Human ID soit par un Organization ID. |
 | **Organization ID** | L'identité d'une organisation au sein du système FayID. Publiée en clair et ne nécessitant pas de Dynamic Code dérivé. |

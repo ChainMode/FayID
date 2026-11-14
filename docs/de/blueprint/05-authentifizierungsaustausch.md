@@ -85,7 +85,7 @@ Einer natürlichen Person ermöglichen, jeden Grant unter ihrer Identität einzu
 ```mermaid
 sequenceDiagram
   autonumber
-  participant U as Human Prototype
+  participant U as Human Prime
   participant AEX as Auth Exchange
   participant RES as Resolver
 

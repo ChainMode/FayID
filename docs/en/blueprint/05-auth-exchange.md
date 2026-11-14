@@ -85,7 +85,7 @@ Allow a natural person user to redeem every Grant under their identity by rememb
 ```mermaid
 sequenceDiagram
   autonumber
-  participant U as Human Prototype
+  participant U as Human Prime
   participant AEX as Auth Exchange
   participant RES as Resolver
 

@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fayid.org/schema/draft/schema.json",
+  "title": "FayID Schema (Draft)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "draft" },
+    "entity": { "$ref": "#/$defs/FayIDEntity" }
+  },
+  "required": ["version", "entity"],
+  "$defs": {
+    "Base32NoPadString": {
+      "type": "string",
+      "pattern": "^[a-z2-7]+$"
+    },
+    "Bytes": {
+      "oneOf": [
+        { "type": "string", "contentEncoding": "base64" },
+        { "type": "string", "pattern": "^[0-9a-fA-F]+$" }
+      ]
+    },
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "OwnerKind": {
+      "type": "string",
+      "enum": ["HUMAN", "ORGANIZATION"]
+    },
+    "LegacySourceKind": {
+      "type": "string",
+      "enum": [
+        "PASSWORD",
+        "CERTIFICATE",
+        "AUTHORIZATION",
+        "ACCESS_TOKEN",
+        "SMART_CONTRACT"
+      ]
+    },
+    "LegacyTrustLevel": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"]
+    },
+    "GrantState": {
+      "type": "string",
+      "enum": ["ACTIVE", "EXPIRED", "REVOKED"]
+    },
+    "ScopeMode": {
+      "type": "string",
+      "enum": ["EXACT", "PREFIX"],
+      "default": "EXACT"
+    },
+    "HumanIDString": {
+      "type": "string",
+      "pattern": "^hid_[a-z2-7]+$"
+    },
+    "IFayIDString": {
+      "type": "string",
+      "pattern": "^ifay_[a-z2-7]+$"
+    },
+    "CoFayIDString": {
+      "type": "string",
+      "pattern": "^cofay_[a-z2-7]+$"
+    },
+    "OrganizationIDString": {
+      "type": "string",
+      "pattern": "^org_[a-z0-9-]+$"
+    },
+    "DynamicCodeString": {
+      "type": "string",
+      "pattern": "^dyn_[a-z2-7]+$"
+    },
+    "VerificationCodeString": {
+      "type": "string",
+      "pattern": "^vrf_[a-z2-7]+$"
+    },
+    "AuthorizationGrantString": {
+      "type": "string",
+      "pattern": "^grt_[a-z2-7]+$"
+    },
+    "OpaqueRefString": {
+      "type": "string",
+      "pattern": "^gmcref_[a-z2-7]+$"
+    },
+    "HumanIDRef": { "$ref": "#/$defs/HumanIDString" },
+    "IFayIDRef": { "$ref": "#/$defs/IFayIDString" },
+    "CoFayIDRef": { "$ref": "#/$defs/CoFayIDString" },
+    "OrganizationIDRef": { "$ref": "#/$defs/OrganizationIDString" },
+    "HumanIDProofRef": {
+      "type": "string",
+      "minLength": 16
+    },
+    "LegacySubjectRef": {
+      "type": "string",
+      "pattern": "^(PASSWORD|CERTIFICATE|AUTHORIZATION|ACCESS_TOKEN|SMART_CONTRACT):[^:]+:[a-z2-7]+$"
+    },
+    "HumanID": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "HUMAN_ID" },
+        "id": { "$ref": "#/$defs/Bytes" },
+        "publicKey": { "$ref": "#/$defs/Bytes" },
+        "createdAt": { "$ref": "#/$defs/Timestamp" }
+      },
+      "required": ["kind", "id", "publicKey", "createdAt"]
+    },
+    "IFayID": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "IFAY_ID" },
+        "id": { "$ref": "#/$defs/Bytes" },
+        "ownerHumanID": { "$ref": "#/$defs/HumanIDRef" },
+        "publicKey": { "$ref": "#/$defs/Bytes" },
+        "ownerSignature": { "$ref": "#/$defs/Bytes" },
+        "createdAt": { "$ref": "#/$defs/Timestamp" },
+        "revoked": { "type": "boolean" }
+      },
+      "required": ["kind", "id", "ownerHumanID", "createdAt", "revoked"]
+    },
+    "CoFayID": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "COFAY_ID" },
+        "id": { "$ref": "#/$defs/Bytes" },
+        "ownerKind": { "$ref": "#/$defs/OwnerKind" },
+        "ownerRef": {
+          "oneOf": [
+            { "$ref": "#/$defs/HumanIDRef" },
+            { "$ref": "#/$defs/OrganizationIDRef" }
+          ]
+        },
+        "publicKey": { "$ref": "#/$defs/Bytes" },
+        "ownerSignature": { "$ref": "#/$defs/Bytes" },
+        "verificationCode": { "$ref": "#/$defs/Bytes" },
+        "verificationCodeVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": { "$ref": "#/$defs/Timestamp" },
+        "revoked": { "type": "boolean" }
+      },
+      "required": [
+        "kind",
+        "id",
+        "ownerKind",
+        "ownerRef",
+        "verificationCode",
+        "verificationCodeVersion",
+        "createdAt",
+        "revoked"
+      ]
+    },
+    "OrganizationID": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "ORGANIZATION_ID" },
+        "id": { "$ref": "#/$defs/OrganizationIDString" },
+        "displayName": { "type": "string" },
+        "createdAt": { "$ref": "#/$defs/Timestamp" }
+      },
+      "required": ["kind", "id", "createdAt"]
+    },
+    "DynamicCode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "DYNAMIC_CODE" },
+        "code": { "$ref": "#/$defs/DynamicCodeString" },
+        "humanIDRef": { "$ref": "#/$defs/HumanIDRef" },
+        "issuedAt": { "$ref": "#/$defs/Timestamp" },
+        "expiresAt": { "$ref": "#/$defs/Timestamp" },
+        "nonce": { "$ref": "#/$defs/Bytes" },
+        "lookupKey": { "$ref": "#/$defs/Bytes" }
+      },
+      "required": [
+        "kind",
+        "code",
+        "humanIDRef",
+        "issuedAt",
+        "expiresAt",
+        "nonce",
+        "lookupKey"
+      ]
+    },
+    "VerificationCode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "VERIFICATION_CODE" },
+        "code": { "$ref": "#/$defs/Bytes" },
+        "cofayIDRef": { "$ref": "#/$defs/CoFayIDRef" },
+        "version": { "type": "integer", "minimum": 1 },
+        "issuedAt": { "$ref": "#/$defs/Timestamp" }
+      },
+      "required": ["kind", "code", "cofayIDRef", "version", "issuedAt"]
+    },
+    "AuthorizationGrant": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "AUTHORIZATION_GRANT" },
+        "grantID": { "$ref": "#/$defs/Bytes" },
+        "targetFayID": {
+          "oneOf": [
+            { "$ref": "#/$defs/IFayIDRef" },
+            { "$ref": "#/$defs/HumanIDProofRef" }
+          ]
+        },
+        "legacySubjectRef": { "$ref": "#/$defs/LegacySubjectRef" },
+        "legacySourceKind": { "$ref": "#/$defs/LegacySourceKind" },
+        "legacyTrustLevel": { "$ref": "#/$defs/LegacyTrustLevel" },
+        "resourceRef": { "type": "string", "minLength": 1 },
+        "scopeMode": { "$ref": "#/$defs/ScopeMode" },
+        "issuedAt": { "$ref": "#/$defs/Timestamp" },
+        "expiresAt": { "$ref": "#/$defs/Timestamp" },
+        "signature": { "$ref": "#/$defs/Bytes" },
+        "statusVersion": { "type": "integer", "minimum": 0 },
+        "state": { "$ref": "#/$defs/GrantState" }
+      },
+      "required": [
+        "kind",
+        "grantID",
+        "targetFayID",
+        "legacySubjectRef",
+        "legacySourceKind",
+        "legacyTrustLevel",
+        "resourceRef",
+        "scopeMode",
+        "issuedAt",
+        "expiresAt",
+        "signature",
+        "statusVersion",
+        "state"
+      ]
+    },
+    "OpaqueRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "OPAQUE_REF" },
+        "value": { "$ref": "#/$defs/OpaqueRefString" }
+      },
+      "required": ["kind", "value"]
+    },
+    "FayIDEntity": {
+      "oneOf": [
+        { "$ref": "#/$defs/HumanID" },
+        { "$ref": "#/$defs/IFayID" },
+        { "$ref": "#/$defs/CoFayID" },
+        { "$ref": "#/$defs/OrganizationID" },
+        { "$ref": "#/$defs/DynamicCode" },
+        { "$ref": "#/$defs/VerificationCode" },
+        { "$ref": "#/$defs/AuthorizationGrant" },
+        { "$ref": "#/$defs/OpaqueRef" }
+      ]
+    },
+    "ProofChallenge": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "challengeID": { "type": "string", "minLength": 16 },
+        "nonce": { "$ref": "#/$defs/Bytes" },
+        "audience": {
+          "type": "string",
+          "enum": ["issuer", "resolver", "auth-exchange", "gmc-interface"]
+        },
+        "intent": {
+          "type": "string",
+          "enum": [
+            "create-ifay",
+            "create-cofay",
+            "issue-dynamic-code",
+            "exchange-grant",
+            "revoke-grant",
+            "revoke-ifay",
+            "revoke-cofay",
+            "list-ifays"
+          ]
+        },
+        "subjectRef": {
+          "oneOf": [
+            { "$ref": "#/$defs/HumanIDRef" },
+            { "$ref": "#/$defs/IFayIDRef" },
+            { "$ref": "#/$defs/CoFayIDRef" },
+            { "$ref": "#/$defs/OrganizationIDRef" }
+          ]
+        },
+        "issuedAt": { "$ref": "#/$defs/Timestamp" },
+        "expiresAt": { "$ref": "#/$defs/Timestamp" }
+      },
+      "required": [
+        "challengeID",
+        "nonce",
+        "audience",
+        "intent",
+        "subjectRef",
+        "issuedAt",
+        "expiresAt"
+      ]
+    }
+  }
+}

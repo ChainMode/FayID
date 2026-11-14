@@ -12,7 +12,7 @@ The FayID system is organized around four kinds of core subjects:
 
 | Subject | Description |
 | --- | --- |
-| **Human Prototype** | A real person in the physical world. Each human prototype holds a unique Human ID as their root identity, backed up via a Mnemonic. |
+| **Human Prime** | A real person in the physical world. Each Human Prime holds a unique Human ID as their root identity, backed up via a Mnemonic. |
 | **Digital Persona (iFay)** | An AI persona that a natural person creates within the iFay ecosystem. One person can own multiple iFays; each iFay carries its own iFay ID, but every iFay is bound back to the same Human ID. |
 | **Public Role (coFay)** | A public-facing shared role that may be created and owned by an individual or an organization. Each coFay has its own coFay ID and Verification Code. |
 | **Organization** | A company, team, or other legal entity. An Organization ID is published in plaintext and does not require Dynamic Code protection. |

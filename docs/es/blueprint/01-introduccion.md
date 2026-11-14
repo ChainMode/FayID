@@ -12,7 +12,7 @@ El sistema FayID se organiza en torno a cuatro tipos de sujetos centrales:
 
 | Sujeto | Descripción |
 | --- | --- |
-| **Persona física (Human Prototype)** | Una persona real del mundo físico. Cada persona física posee un Human ID único como identidad raíz, respaldado por un Mnemonic. |
+| **Persona física (Human Prime)** | Una persona real del mundo físico. Cada persona física posee un Human ID único como identidad raíz, respaldado por un Mnemonic. |
 | **Persona digital (iFay)** | Una persona basada en IA que una persona natural crea dentro del ecosistema iFay. Una persona puede poseer múltiples iFays; cada iFay tiene su propio iFay ID, pero todo iFay queda vinculado al mismo Human ID. |
 | **Rol público (coFay)** | Un rol compartido y público que puede ser creado y poseído por una persona individual o una organización. Cada coFay tiene su propio coFay ID y Verification Code. |
 | **Organización** | Una empresa, equipo u otra entidad jurídica. Un Organization ID se publica en texto plano y no requiere protección mediante Dynamic Code. |

@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FayID Visual Testkit</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow" data-i18n="app.eyebrow">FayID visual demo kit</p>
+        <h1 data-i18n="app.heading">See how FayID is issued, verified, discovered, and protected</h1>
+      </div>
+      <div class="header-controls">
+        <label class="language-switcher" for="language-select">
+          <span data-i18n="language.label">Language</span>
+          <select id="language-select"></select>
+        </label>
+        <div class="status-strip" aria-label="Protocol status" data-i18n-attr="aria-label:status.aria">
+          <span data-i18n="status.profile">v1 draft profile</span>
+          <span data-i18n="status.online">online grant verification</span>
+          <span data-i18n="status.failClosed">fail closed</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="panel wallet" aria-labelledby="wallet-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow" data-i18n="wallet.eyebrow">Holder wallet</p>
+            <h2 id="wallet-title" data-i18n="wallet.title">Create and present FayID</h2>
+          </div>
+          <button id="reset-demo" class="icon-button" title="Reset demo state" aria-label="Reset demo state" data-i18n-attr="title:reset.title,aria-label:reset.title">
+            ↻
+          </button>
+        </div>
+
+        <div class="identity-card">
+          <div class="avatar" aria-hidden="true">F</div>
+          <div>
+            <p class="label" data-i18n="wallet.human">Human ID</p>
+            <p id="human-id" class="secret-value"></p>
+          </div>
+          <span class="badge danger" data-i18n="wallet.neverPublic">never public</span>
+        </div>
+
+        <div class="stack">
+          <div class="data-row">
+            <span data-i18n="wallet.ifay">iFay ID</span>
+            <code id="ifay-id"></code>
+          </div>
+          <div class="data-row">
+            <span data-i18n="wallet.cofay">coFay ID</span>
+            <code id="cofay-id"></code>
+          </div>
+          <div class="data-row">
+            <span data-i18n="wallet.org">Organization ID</span>
+            <code id="org-id"></code>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="issue-dynamic" class="primary" data-i18n="action.issueDynamic">Issue Dynamic Code</button>
+          <button id="exchange-grant" data-i18n="action.exchangeGrant">Exchange Grant</button>
+          <button id="revoke-grant" data-i18n="action.revokeGrant">Revoke Grant</button>
+        </div>
+
+        <div class="artifact-grid">
+          <article>
+            <p class="label" data-i18n="artifact.dynamic">Dynamic Code</p>
+            <code id="dynamic-code"></code>
+            <p id="dynamic-ttl" class="hint"></p>
+          </article>
+          <article>
+            <p class="label" data-i18n="artifact.grant">Authorization Grant</p>
+            <code id="grant-id"></code>
+            <p id="grant-state" class="hint"></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel verifier" aria-labelledby="verify-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow" data-i18n="verifier.eyebrow">Target resource</p>
+            <h2 id="verify-title" data-i18n="verifier.title">Verify access and identity</h2>
+          </div>
+          <span id="verifier-state" class="badge"></span>
+        </div>
+
+        <div class="resource-box">
+          <label for="resource-ref" data-i18n="resource.label">Resource Ref</label>
+          <input id="resource-ref" value="https://api.ifay.example/app/read" />
+        </div>
+
+        <div class="segmented" role="group" aria-label="Scope mode" data-i18n-attr="aria-label:scope.aria">
+          <button id="scope-exact" class="selected">EXACT</button>
+          <button id="scope-prefix">PREFIX</button>
+        </div>
+
+        <div class="actions verifier-actions">
+          <button id="verify-grant" class="primary" data-i18n="action.verifyGrant">Verify Grant</button>
+          <button id="verify-cofay" data-i18n="action.verifyCofay">Verify coFay Code</button>
+        </div>
+
+        <ol id="verify-steps" class="timeline"></ol>
+      </section>
+
+      <section class="panel discovery" aria-labelledby="discovery-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow" data-i18n="discovery.eyebrow">GMC discovery</p>
+            <h2 id="discovery-title" data-i18n="discovery.title">Discover ownership safely</h2>
+          </div>
+          <span class="badge safe" data-i18n="discovery.readOnly">read only</span>
+        </div>
+
+        <div class="lookup-tabs" role="group" aria-label="Lookup target" data-i18n-attr="aria-label:lookup.aria">
+          <button id="lookup-ifay" class="selected" data-i18n="lookup.ifay">iFay</button>
+          <button id="lookup-cofay" data-i18n="lookup.cofay">coFay</button>
+          <button id="lookup-org" data-i18n="lookup.org">Org</button>
+        </div>
+
+        <div class="lookup-result">
+          <p class="label" data-i18n="lookup.publicInput">Public input</p>
+          <code id="lookup-input"></code>
+          <p class="label" data-i18n="lookup.ownerRef">Returned owner reference</p>
+          <code id="owner-ref"></code>
+        </div>
+
+        <div class="privacy-meter">
+          <div>
+            <span data-i18n="privacy.human">Human ID exposed</span>
+            <strong id="human-exposed">0</strong>
+          </div>
+          <div>
+            <span data-i18n="privacy.secret">Mnemonic/private key exposed</span>
+            <strong id="secret-exposed">0</strong>
+          </div>
+          <div>
+            <span data-i18n="privacy.opaque">OpaqueRef returned</span>
+            <strong id="opaque-count">1</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel attacks" aria-labelledby="attacks-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow" data-i18n="attacks.eyebrow">Attack lab</p>
+            <h2 id="attacks-title" data-i18n="attacks.title">Try to break it</h2>
+          </div>
+          <span id="attack-state" class="badge danger" data-i18n="attacks.blocked">blocked</span>
+        </div>
+
+        <div class="attack-grid">
+          <button data-attack="forgeGrant" data-i18n="attacks.forgeGrant">Forge Grant Signature</button>
+          <button data-attack="replayProof" data-i18n="attacks.replayProof">Replay ProofChallenge</button>
+          <button data-attack="wideScope" data-i18n="attacks.wideScope">Over-broad Prefix Scope</button>
+          <button data-attack="leakHuman" data-i18n="attacks.leakHuman">Log Human ID</button>
+        </div>
+
+        <div id="attack-output" class="attack-output"></div>
+      </section>
+
+      <section class="panel logs" aria-labelledby="logs-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow" data-i18n="logs.eyebrow">Safe observability</p>
+            <h2 id="logs-title" data-i18n="logs.title">Redacted event stream</h2>
+          </div>
+          <button id="clear-log" data-i18n="logs.clear">Clear</button>
+        </div>
+        <pre id="event-log"></pre>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

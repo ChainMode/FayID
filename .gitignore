@@ -1,9 +1,11 @@
-# 默认忽略一切，仅放行 docs/、README.md、LICENSE 与 .gitignore 自身
+# 默认忽略一切，仅放行 docs/、schema/、README.md、LICENSE 与 .gitignore 自身
 /*
 !/docs/
+!/schema/
 !/README.md
 !/LICENSE
 !/.gitignore
 
-# macOS 系统文件
+# 构建与系统噪声
 .DS_Store
+node_modules/

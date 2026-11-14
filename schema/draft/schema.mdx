@@ -1,0 +1,50 @@
+# FayID Schema (Draft)
+
+This draft schema mirrors `docs/zh-CN/specification/draft/fayid-protocol.md`.
+
+## String Prefixes
+
+| Kind | Prefix | Notes |
+| --- | --- | --- |
+| Human ID | `hid_` | Root identity; not allowed in public outbound payloads |
+| iFay ID | `ifay_` | Public digital personality ID |
+| coFay ID | `cofay_` | Public shared-role ID |
+| Organization ID | `org_` | Public organization ID |
+| Dynamic Code | `dyn_` | Short-lived Human proxy token |
+| Verification Code | `vrf_` | Only paired with coFay ID |
+| Authorization Grant | `grt_` | Grant token |
+| OpaqueRef | `gmcref_` | Irreversible Human reference for GMC |
+
+## Enums
+
+- `OwnerKind`: `HUMAN`, `ORGANIZATION`
+- `LegacySourceKind`: `PASSWORD`, `CERTIFICATE`, `AUTHORIZATION`, `ACCESS_TOKEN`, `SMART_CONTRACT`
+- `LegacyTrustLevel`: `LOW`, `MEDIUM`, `HIGH`
+- `GrantState`: `ACTIVE`, `EXPIRED`, `REVOKED`
+- `ScopeMode`: `EXACT`, `PREFIX`
+
+## Baseline Limits
+
+| Limit | Value |
+| --- | --- |
+| Dynamic Code max TTL | 600 seconds |
+| ProofChallenge max TTL | 300 seconds |
+| Grant max TTL | 3600 seconds |
+| LOW trust Grant max TTL | 900 seconds |
+| verifyGrant success cache max | 60 seconds |
+| Verification Code failure window | 600 seconds |
+| Verification Code failure threshold | 5 failures |
+| Verification Code initial backoff | 300 seconds |
+| Verification Code max backoff | 3600 seconds |
+
+## Files
+
+- `schema.ts`: TypeScript constants, types, and component interfaces.
+- `schema.json`: JSON Schema Draft 2020-12 definitions for entities and proof challenge structures.
+
+## Security-Critical Schema Anchors
+
+- `ProofChallenge` binds `audience`, `intent`, `subjectRef`, `nonce`, `issuedAt`, and `expiresAt`.
+- `AuthorizationGrant` includes `legacySubjectRef`, `legacyTrustLevel`, `scopeMode`, and `statusVersion`.
+- `LegacySubjectRef` is represented as an HMAC-derived opaque string, not raw legacy identity material.
+- `OpaqueRef` is a first-class `gmcref_` string type.

@@ -12,7 +12,7 @@ Le système FayID s'organise autour de quatre catégories de sujets fondamentaux
 
 | Sujet | Description |
 | --- | --- |
-| **Personne physique (Human Prototype)** | Une personne réelle dans le monde physique. Chaque personne physique détient un Human ID unique comme identité racine, sauvegardée par un Mnemonic. |
+| **Personne physique (Human Prime)** | Une personne réelle dans le monde physique. Chaque personne physique détient un Human ID unique comme identité racine, sauvegardée par un Mnemonic. |
 | **Persona numérique (iFay)** | Un persona IA qu'une personne physique crée dans l'écosystème iFay. Une personne peut posséder plusieurs iFay ; chaque iFay porte son propre iFay ID, mais chaque iFay est rattaché au même Human ID. |
 | **Rôle public (coFay)** | Un rôle public partagé qui peut être créé et possédé par un individu ou une organisation. Chaque coFay possède son propre coFay ID et son Verification Code. |
 | **Organisation** | Une entreprise, équipe ou autre entité juridique. Un Organization ID est publié en clair et ne nécessite pas de protection par Dynamic Code. |

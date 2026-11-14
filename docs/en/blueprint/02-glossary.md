@@ -11,8 +11,8 @@ This chapter consolidates all terminology used in the FayID system. The first ha
 | Term | Definition |
 | --- | --- |
 | **FayID System** | The overall identity system defined by this specification, comprising the logical components Issuer, Resolver, Auth Exchange, GMC Interface, Serializer, Parser, and others. |
-| **Human ID** | A natural person's root identity within the FayID system. Derived from a key pair, paired with a Mnemonic, and held exclusively by a single Human Prototype. |
-| **Human Prototype** | The real natural person paired one-to-one with a Human ID. |
+| **Human ID** | A natural person's root identity within the FayID system. Derived from a key pair, paired with a Mnemonic, and held exclusively by a single Human Prime. |
+| **Human Prime** | The real natural person paired one-to-one with a Human ID. |
 | **iFay ID** | The identity of a single iFay digital persona. Must be bound to exactly one Human ID, although a single Human ID may bind multiple iFay IDs. |
 | **coFay ID** | The identity of a coFay public role. Must be owned by either a Human ID or an Organization ID. |
 | **Organization ID** | An organization's identity within the FayID system. Published in plaintext and does not require a derived Dynamic Code. |

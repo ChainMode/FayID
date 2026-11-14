@@ -12,7 +12,7 @@ Das FayID-System ist in vier Arten von Kernakteuren gegliedert:
 
 | Akteur | Beschreibung |
 | --- | --- |
-| **Natürliche Person (Human Prototype)** | Eine reale Person in der physischen Welt. Jede natürliche Person hält eine eindeutige Human ID als Wurzelidentität, gesichert über ein Mnemonic. |
+| **Natürliche Person (Human Prime)** | Eine reale Person in der physischen Welt. Jede natürliche Person hält eine eindeutige Human ID als Wurzelidentität, gesichert über ein Mnemonic. |
 | **Digitale Persona (iFay)** | Eine KI-Persona, die eine natürliche Person innerhalb des iFay-Ökosystems erstellt. Eine Person kann mehrere iFays besitzen; jede iFay trägt ihre eigene iFay ID, doch jede iFay ist auf dieselbe Human ID zurückgebunden. |
 | **Öffentliche Rolle (coFay)** | Eine öffentlich auftretende geteilte Rolle, die von einer Einzelperson oder einer Organisation erstellt und besessen werden kann. Jede coFay verfügt über ihre eigene coFay ID und einen Verification Code. |
 | **Organisation** | Ein Unternehmen, ein Team oder eine andere juristische Person. Eine Organization ID wird im Klartext veröffentlicht und benötigt keinen Schutz durch einen Dynamic Code. |

@@ -174,7 +174,7 @@ FayID 的版本信息由**三条正交的轴**构成，MUST NOT 被合并为单�
 | 术语 | 定义 |
 | --- | --- |
 | **FayID System** | 实现本协议的逻辑组件集合，包括 Issuer、Resolver、Auth Exchange、GMC Interface、Serializer、Parser。 |
-| **Human Prototype** | 与 Human ID 一一对应的真实自然人。 |
+| **Human Prime** | 与 Human ID 一一对应的真实自然人。 |
 | **Human ID** | 自然人在 FayID 体系中的根身份标识。由密钥对派生，对应一份 Mnemonic。 |
 | **iFay ID** | 一个数字人格的标识。每个 iFay ID 绑定到唯一的 Human ID。 |
 | **coFay ID** | 公共角色的标识。每个 coFay ID 归属到唯一的 Human ID 或 Organization ID。 |
@@ -213,7 +213,7 @@ FayID System MUST 至少在概念上分离以下逻辑组件，组件之间通�
 
 ### 4.2 信任边界
 
-- **强信任内部**：Issuer 与 Mnemonic / 私钥派生材料之间。Mnemonic MUST 仅在 Issuer 生成时刻沿一次性出站路径返回给 Human Prototype，MUST NOT 进入持久化存储。
+- **强信任内部**：Issuer 与 Mnemonic / 私钥派生材料之间。Mnemonic MUST 仅在 Issuer 生成时刻沿一次性出站路径返回给 Human Prime，MUST NOT 进入持久化存储。
 - **半信任**：Resolver、Auth Exchange、GMC Interface 之间。它们可共享内部标识与归属图，但 MUST NOT 共享 Mnemonic / 私钥。
 - **零信任外部**：第三方资源、Global Merit Chain、传统鉴权来源、可观测性后端。所有跨边界载荷 MUST 经 Serializer 规范化，并满足 §11 的隐私约束。
 
@@ -222,7 +222,7 @@ FayID System MUST 至少在概念上分离以下逻辑组件，组件之间通�
 ```mermaid
 flowchart LR
   subgraph External["外部参与者"]
-    HP["Human Prototype"]
+    HP["Human Prime"]
     LAS["Legacy Auth Source"]
     TR["Target Resource"]
     GMC["Global Merit Chain"]
@@ -418,11 +418,11 @@ humanID.publicKey := keypair.publicKey
 - **不可反推**：仅给定 `humanID.id` 时，恢复 `mnemonic` 或 `keypair.privateKey` 在多项式时间内 MUST 不可行。
 - **熵阈值**：若熵源不足以满足 v1 算法要求，Issuer MUST 拒绝生成并返回 `INSUFFICIENT_ENTROPY`。
 
-### 6.3 Dynamic Code 派生
+### 6.3 Dynamic Code 派生（自主主权 Holder-of-Key 基线）
 
 ```
 deriveSecret(humanID) := HKDF-SHA256(
-  ikm   = issuer_master_secret,
+  ikm   = human_root_derive_key,      // 由 Human Prime 本地根密钥派生，不依赖中心化主密钥
   salt  = humanID.id,
   info  = "fayid/derive_secret/v1",
   length = 32 bytes
@@ -447,21 +447,21 @@ dynamicCode.lookupKey := SHA-256(dynamicCode.code)
 - **不可关联性**：FOR ALL `humanID`，FOR ALL 两次调用 `issueDynamicCode(humanID)` 产生的 `dc1`、`dc2`，外部观察者在不持有 `deriveSecret(humanID)` 时，区分 `dc1`、`dc2` 是否同源 MUST 不优于随机猜测（Property P9 的密码学基础）。
 - **可解析性**：FOR ALL 有效期内的 `dc = issueDynamicCode(humanID)`，Resolver MUST 能将 `dc` 解析回 `humanID`（Property P3）。
 - **时窗约束**：当 `now > dc.expiresAt`，Resolver MUST 拒绝并返回 `DYNAMIC_CODE_EXPIRED`。
-- **不要求 Mnemonic**：派生过程 MUST 仅依赖 `issuer_master_secret` 与 `humanID.id`，MUST NOT 要求 Human Prototype 出示 Mnemonic 明文。
-- **索引模型**：v1 Dynamic Code 是服务端索引型 token。Issuer MUST 在签发时把 `{ lookupKey, humanIDRef, issuedAt, expiresAt, nonce }` 写入 Resolver 可访问的短期索引。Resolver MUST 通过 `SHA-256(dynamicCode.code)` 查找该索引；MUST NOT 通过扫描全部 Human ID 来解析 Dynamic Code。
+- **不暴露 Mnemonic 明文**：派生过程在本地仅使用子派生密钥 `human_root_derive_key` 与 `humanID.id`，向目录服务注册短期索引时 MUST 仅提交挑战签名证明与 `lookupKey`，MUST NOT 向任何远端节点传输 Mnemonic 明文或根私钥。
+- **索引模型**：v1 Dynamic Code 采用客户端派生 + 短期哈希索引注册。签发时目录层仅保存 `{ lookupKey, humanIDRef, issuedAt, expiresAt, nonce }`。Resolver MUST 通过 `SHA-256(dynamicCode.code)` 查找该索引；MUST NOT 通过扫描全部 Human ID 来解析 Dynamic Code。
 - **索引过期**：当 `now > expiresAt`，Resolver MUST 拒绝解析；实现 SHOULD 删除或归档对应索引项，归档内容 MUST 不包含 Dynamic Code 明文。
 - **碰撞处理**：若新生成的 `lookupKey` 已存在且未过期，Issuer MUST 重新生成 `nonce` 并重新派生；若连续 3 次仍无法生成唯一项，MUST 拒绝签发并返回 `DYNAMIC_CODE_INVALID`。
 - **默认 TTL**：v1 Dynamic Code 的默认 TTL MUST NOT 超过 10 分钟。实现 MAY 配置更短 TTL；若配置超过 10 分钟，MUST 使用新的 profile 名称，MUST NOT 声称符合 v1 baseline。
 - **索引一致性**：多实例部署时，Dynamic Code 索引 MUST 在签发成功前对所有可接收解析请求的 Resolver 可见，或请求路由 MUST 保证解析落到持有该索引的 Resolver。索引不可用时 Resolver MUST fail closed，返回 `DYNAMIC_CODE_INVALID`。
 - **存储保护**：Dynamic Code 索引 MUST 只存储 `lookupKey`，MUST NOT 存储 Dynamic Code 明文字面量。`lookupKey` 存储 SHOULD 使用带服务端密钥的 `HMAC-SHA256(dynamic_code_index_secret, code)`；若使用裸 `SHA-256(code)`，索引存储 MUST 被视为敏感数据并加密保存。
 
-### 6.4 Verification Code 派生
+### 6.4 Verification Code 派生（Owner Holder-of-Key 基线）
 
 ```
 verificationCode_v.code := encode(
   prefix  = "vrf_",
   payload = HKDF-SHA256(
-    ikm   = issuer_master_secret,
+    ikm   = owner_vrf_derive_key,     // 由 coFay 责任归属主体（Human Prime 或 Organization）本地派生密钥提供
     salt  = cofayID.id || encode_uint64(version),
     info  = "fayid/vrf/v1",
     length = 16 bytes
@@ -916,8 +916,8 @@ GMC Interface MUST NOT 接受 Global Merit Chain 反向写入 Human ID 明文、
 
 - `gmcLookupOwnership` 当 `ownerKind = "HUMAN"` 时，`ownerOpaqueRef` MUST 是 §6.5 派生的 `OpaqueRef`，MUST NOT 是 Human ID 明文。
 - `gmcLookupOwnership` 当 `ownerKind = "ORGANIZATION"` 时，`ownerOpaqueRef` MUST 是 Organization ID 明文（Organization ID 本就公开）。
-- `gmcResolvePublicEntity` MUST NOT 返回与 Human Prototype 关联的可识别身份信息，仅返回公开 ID 与公开元数据。
-- `gmc_namespace_secret` MUST 存储在受保护的密钥管理系统中，MUST NOT 与 `issuer_master_secret`、`legacy_subject_secret` 或日志 HMAC 密钥复用。
+- `gmcResolvePublicEntity` MUST NOT 返回与 Human Prime 关联的可识别身份信息，仅返回公开 ID 与公开元数据。
+- `gmc_namespace_secret` MUST 存储在受保护的密钥管理系统中，MUST NOT 与 `dynamic_code_index_secret`、`legacy_subject_secret` 或日志 HMAC 密钥复用。
 - v1 不支持无缝轮换 `gmc_namespace_secret`。若密钥疑似泄露，GMC Interface MUST 暂停新的 Human 归属查询并进入人工恢复流程；恢复流程 MUST 通过独立 ADR 定义，MUST NOT 静默切换密钥导致同一 Human 的 `OpaqueRef` 断裂。
 
 ---
@@ -1024,7 +1024,6 @@ GMC Interface MUST NOT 接受 Global Merit Chain 反向写入 Human ID 明文、
 - [RFC 3986] Berners-Lee, T., Fielding, R., Masinter, L., "Uniform Resource Identifier (URI): Generic Syntax", RFC 3986, January 2005.
 - [RFC 8785] Rundgren, A., Jordan, B., Bray, T., "JSON Canonicalization Scheme (JCS)", RFC 8785, June 2020.
 - FayID Blueprint, [docs/zh-CN/blueprint/](../../blueprint/01-引言.md)
-- Spec working set: `.kiro/specs/fayid-identity-system/{requirements,design,tasks}.md`
 
 ---
 
