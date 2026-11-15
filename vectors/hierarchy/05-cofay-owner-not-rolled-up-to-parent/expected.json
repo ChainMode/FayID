@@ -1,0 +1,8 @@
+{
+  "outcome": "accepted",
+  "cofayOwner": "org_subsidiary",
+  "ancestorChain": [
+    "org_holding",
+    "org_subsidiary"
+  ]
+}

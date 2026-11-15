@@ -1,0 +1,30 @@
+{
+  "action": "link_hierarchy",
+  "steward": "hid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "orgs": [
+    "org_a",
+    "org_b",
+    "org_c"
+  ],
+  "links": [
+    {
+      "org": "org_b",
+      "parent": "org_a",
+      "childSigned": true,
+      "parentSigned": true
+    },
+    {
+      "org": "org_c",
+      "parent": "org_b",
+      "childSigned": true,
+      "parentSigned": true
+    },
+    {
+      "org": "org_a",
+      "parent": "org_c",
+      "childSigned": true,
+      "parentSigned": true
+    }
+  ],
+  "queryOrg": "org_c"
+}

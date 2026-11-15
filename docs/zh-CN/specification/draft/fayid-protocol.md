@@ -318,22 +318,35 @@ Human ID 的字符串表示由 §5.1 与 §5.2 规定。
 | 字段 | 类型 | 约束 |
 | --- | --- | --- |
 | `id` | bytes | 全局唯一 |
-| `ownerKind` | enum | `HUMAN` 或 `ORGANIZATION` |
-| `ownerRef` | Human ID 引用 或 Organization ID 引用 | 由 `ownerKind` 决定指向；任意时刻仅一个归属主体 |
+| `ownerKind` | enum | `HUMAN` 或 `ORGANIZATION`；严禁 `IFAY` 或 `COFAY` |
+| `ownerRef` | Human ID 引用 或 Organization ID 引用 | 由 `ownerKind` 决定指向；任意时刻仅一个归属主体，恰一层 |
+| `managers` | iFay ID 引用数组 | 可选；与归属权分离的管理权（操控权）列表，单跳不可再委托 |
 | `verificationCode` | bytes | 与 `id` 一一对应 |
 | `verificationCodeVersion` | uint64 | 单调递增；初始为 1 |
 | `createdAt` | timestamp | |
 | `revoked` | bool | 单调 |
 
-#### 5.4.4 Organization ID
+规范性归属与管理权不变量：
+- **禁止嵌套与非法归属主体**：coFay ID 的归属主体 SHALL NOT 为另一个 coFay ID 或任何 iFay ID；违例请求 MUST 拒绝并返回 `OWNER_TYPE_NOT_ALLOWED`。
+- **管理权与归属权正交**：向 `managers` 授予或撤销 iFay ID 管理权 MUST 由当前 `ownerRef` 签名（非归属主体发起返回 `AUTHORITY_GRANT_UNAUTHORIZED`），且 SHALL NOT 改变 `ownerRef`；被授权 iFay SHALL NOT 将管理权再委托给其他 iFay。
+
+#### 5.4.4 Organization ID 与自足组织层级
 
 | 字段 | 类型 | 约束 |
 | --- | --- | --- |
-| `id` | string | 明文；全局唯一 |
+| `id` | string | 明文；全局唯一（`org_` 前缀） |
 | `displayName` | string | 可选；信息性 |
+| `stewardHumanID` | Human ID 引用 | 组织主理人 MUST 为自然人（Human ID），声明为 iFay ID 或 coFay ID 返回 `STEWARD_TYPE_NOT_ALLOWED` |
+| `managers` | iFay ID 引用数组 | 可选；日常组织管理代理 |
 | `createdAt` | timestamp | |
 
 Organization ID **MUST NOT** 派生 Dynamic Code。
+
+FayID System 在本仓内自足维护单父无环组织层级记录（`OrganizationHierarchyRecord := { org, parent, orgSignature, parentSignature, establishedAt }`）：
+- 每个 `org` 至多声明一个父组织 `parent`（`null` 表示顶层组织），协议层不设深度上限（无 16 层截断）；
+- 建立或变更父子关系 MUST 同时具备父子组织双方的有效签名，单方声明 MUST 返回 `HIERARCHY_CONSENT_MISSING`；
+- 任何会导致直接自环或间接环路的声明 MUST 在写入前拒绝并返回 `HIERARCHY_CYCLE_CONFLICT`；
+- 归属于子组织的 coFay ID，其 `ownerRef` MUST 保持为该子组织自身的 `Organization ID`，SHALL NOT 因存在父组织而自动上卷给父组织。
 
 #### 5.4.5 Dynamic Code
 

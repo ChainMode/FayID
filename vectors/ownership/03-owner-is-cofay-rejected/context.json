@@ -1,0 +1,8 @@
+{
+  "action": "register_nested_cofay",
+  "primaryCofay": "cofay_cccccccccccccccccccccccccccccccc",
+  "primaryOwner": "hid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "cofay": "cofay_dddddddddddddddddddddddddddddddd",
+  "owner": "cofay_cccccccccccccccccccccccccccccccc",
+  "signer": "cofay_cccccccccccccccccccccccccccccccc"
+}

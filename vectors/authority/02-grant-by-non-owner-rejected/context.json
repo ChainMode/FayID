@@ -1,0 +1,7 @@
+{
+  "action": "grant_manager",
+  "owner": "hid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "cofay": "cofay_cccccccccccccccccccccccccccccccc",
+  "manager": "ifay_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "signer": "ifay_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+}

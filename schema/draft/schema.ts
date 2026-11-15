@@ -42,6 +42,11 @@ export const FAYID_ERROR_CODES = {
   GRANT_REVOKED: "GRANT_REVOKED",
   GRANT_INVALID: "GRANT_INVALID",
   MALFORMED_FAYID_STRING: "MALFORMED_FAYID_STRING",
+  OWNER_TYPE_NOT_ALLOWED: "OWNER_TYPE_NOT_ALLOWED",
+  HIERARCHY_CONSENT_MISSING: "HIERARCHY_CONSENT_MISSING",
+  HIERARCHY_CYCLE_CONFLICT: "HIERARCHY_CYCLE_CONFLICT",
+  AUTHORITY_GRANT_UNAUTHORIZED: "AUTHORITY_GRANT_UNAUTHORIZED",
+  STEWARD_TYPE_NOT_ALLOWED: "STEWARD_TYPE_NOT_ALLOWED",
 } as const;
 
 export type FayIDErrorCode =
@@ -101,23 +106,42 @@ export interface IFayID {
   revoked: boolean;
 }
 
+export type CoFayOwner =
+  | { type: "human"; id: HumanIDRef }
+  | { type: "organization"; id: OrganizationIDRef };
+
+export interface OrganizationHierarchyRecord {
+  kind: "ORGANIZATION_HIERARCHY_RECORD";
+  org: OrganizationIDRef;
+  parent: OrganizationIDRef | null;
+  orgSignature?: Bytes;
+  parentSignature?: Bytes;
+  establishedAt: Timestamp;
+}
+
 export interface CoFayID {
   kind: "COFAY_ID";
   id: Bytes;
+  owner?: CoFayOwner;
   ownerKind: OwnerKind;
   ownerRef: HumanIDRef | OrganizationIDRef;
+  managers?: IFayIDRef[];
   publicKey?: Bytes;
   ownerSignature?: Bytes;
   verificationCode: Bytes;
   verificationCodeVersion: number;
   createdAt: Timestamp;
   revoked: boolean;
+  suspendedPendingSuccession?: boolean;
 }
 
 export interface OrganizationID {
   kind: "ORGANIZATION_ID";
   id: string;
   displayName?: string;
+  stewardHumanID?: HumanIDRef;
+  managers?: IFayIDRef[];
+  publicKey?: Bytes;
   createdAt: Timestamp;
 }
 

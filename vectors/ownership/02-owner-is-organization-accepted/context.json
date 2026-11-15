@@ -1,0 +1,8 @@
+{
+  "action": "register_cofay",
+  "org": "org_acme",
+  "steward": "hid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "cofay": "cofay_cccccccccccccccccccccccccccccccc",
+  "owner": "org_acme",
+  "signer": "hid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

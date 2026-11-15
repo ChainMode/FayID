@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fayid.org/schema/draft/organization-hierarchy.schema.json",
+  "title": "FayID Self-Contained Organization Hierarchy Schema (Draft)",
+  "description": "Single-parent acyclic organization hierarchy record requiring mutual two-party consent signatures, with no artificial maxDepth limit.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "org", "parent", "establishedAt"],
+  "properties": {
+    "kind": { "const": "ORGANIZATION_HIERARCHY_RECORD" },
+    "org": {
+      "type": "string",
+      "pattern": "^org_[a-z0-9-]+$"
+    },
+    "parent": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^org_[a-z0-9-]+$"
+        },
+        { "type": "null" }
+      ]
+    },
+    "orgSignature": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{128}$"
+    },
+    "parentSignature": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{128}$"
+    },
+    "establishedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

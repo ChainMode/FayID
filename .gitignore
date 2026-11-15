@@ -2,6 +2,10 @@
 /*
 !/docs/
 !/schema/
+!/src/
+!/vectors/
+!/tests/
+!/package.json
 !/README.md
 !/LICENSE
 !/.gitignore

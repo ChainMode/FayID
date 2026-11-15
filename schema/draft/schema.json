@@ -120,18 +120,46 @@
       },
       "required": ["kind", "id", "ownerHumanID", "createdAt", "revoked"]
     },
+    "CoFayOwnerRef": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "id"],
+          "properties": {
+            "type": { "const": "human" },
+            "id": { "$ref": "#/$defs/HumanIDRef" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "id"],
+          "properties": {
+            "type": { "const": "organization" },
+            "id": { "$ref": "#/$defs/OrganizationIDRef" }
+          }
+        }
+      ]
+    },
     "CoFayID": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "kind": { "const": "COFAY_ID" },
         "id": { "$ref": "#/$defs/Bytes" },
+        "owner": { "$ref": "#/$defs/CoFayOwnerRef" },
         "ownerKind": { "$ref": "#/$defs/OwnerKind" },
         "ownerRef": {
           "oneOf": [
             { "$ref": "#/$defs/HumanIDRef" },
             { "$ref": "#/$defs/OrganizationIDRef" }
           ]
+        },
+        "managers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/IFayIDRef" }
         },
         "publicKey": { "$ref": "#/$defs/Bytes" },
         "ownerSignature": { "$ref": "#/$defs/Bytes" },
@@ -141,7 +169,8 @@
           "minimum": 1
         },
         "createdAt": { "$ref": "#/$defs/Timestamp" },
-        "revoked": { "type": "boolean" }
+        "revoked": { "type": "boolean" },
+        "suspendedPendingSuccession": { "type": "boolean" }
       },
       "required": [
         "kind",
@@ -161,6 +190,13 @@
         "kind": { "const": "ORGANIZATION_ID" },
         "id": { "$ref": "#/$defs/OrganizationIDString" },
         "displayName": { "type": "string" },
+        "stewardHumanID": { "$ref": "#/$defs/HumanIDRef" },
+        "managers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/IFayIDRef" }
+        },
+        "publicKey": { "$ref": "#/$defs/Bytes" },
         "createdAt": { "$ref": "#/$defs/Timestamp" }
       },
       "required": ["kind", "id", "createdAt"]

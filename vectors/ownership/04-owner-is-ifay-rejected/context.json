@@ -1,0 +1,8 @@
+{
+  "action": "register_cofay",
+  "ifay": "ifay_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "ifayHuman": "hid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "cofay": "cofay_dddddddddddddddddddddddddddddddd",
+  "owner": "ifay_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "signer": "ifay_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+}

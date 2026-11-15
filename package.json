@@ -1,0 +1,9 @@
+{
+  "name": "@ifay/fayid",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test schema/draft/testkit/test/*.test.js tests/*.test.mjs && node vectors/_tools/verify.mjs"
+  }
+}

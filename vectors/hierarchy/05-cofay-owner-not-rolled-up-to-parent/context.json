@@ -1,0 +1,7 @@
+{
+  "action": "verify_no_rollup",
+  "steward": "hid_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "parentOrg": "org_holding",
+  "childOrg": "org_subsidiary",
+  "cofay": "cofay_cccccccccccccccccccccccccccccccc"
+}
