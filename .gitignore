@@ -1,7 +1,8 @@
-# 默认忽略一切，仅放行 docs/、schema/、README.md、LICENSE 与 .gitignore 自身
+# 默认忽略一切，仅放行公开协议产物、参考实现、测试套件、README.md、LICENSE 与 .gitignore 自身
 /*
 !/docs/
 !/schema/
+!/schemas/
 !/src/
 !/vectors/
 !/tests/

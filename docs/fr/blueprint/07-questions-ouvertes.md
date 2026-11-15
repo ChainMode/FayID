@@ -127,7 +127,7 @@ Ce chapitre liste les problèmes ouverts que la couche de protocole actuelle lai
 
 ## Archivage et suivi
 
-Les 10 éléments ci-dessus seront archivés dans `.kiro/specs/fayid-identity-system/open-questions.md` lors de la prochaine Tâche 8, chaque entrée étant étiquetée par :
+Les 10 éléments ci-dessus ont été suivis et résolus dans la [Spécification FayID 1.0](../specification/2025-10-25/README.md), chaque entrée étant étiquetée par :
 
 - **owner** : le responsable de la question
 - **scope** : les sous-systèmes affectés

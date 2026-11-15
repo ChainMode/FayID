@@ -127,7 +127,7 @@ Este capítulo enumera los problemas abiertos que la capa de protocolo actual de
 
 ## Archivado y seguimiento
 
-Los 10 elementos anteriores serán archivados en `.kiro/specs/fayid-identity-system/open-questions.md` en la próxima Tarea 8, con cada entrada etiquetada por:
+Los 10 elementos anteriores se han rastreado y resuelto en la [Especificación FayID 1.0](../specification/2025-10-25/README.md), con cada entrada etiquetada por:
 
 - **owner**: el responsable del problema
 - **scope**: los subsistemas afectados

@@ -1,0 +1,160 @@
+{
+  "version": "1.0",
+  "edition": "2025-10-25",
+  "subkeyDerivation": [
+    {
+      "id": "subkey-01-entity-ed25519",
+      "masterSeedHex": "2424242424242424242424242424242424242424242424242424242424242424",
+      "domain": "ifay.fayid.entity.v1",
+      "context": "ifay:0",
+      "expectedEntityId": "ifay_3atyjm7qw4dbchkbec5hy22t4pope5qc55aozxhrm722c6tlsf6q",
+      "expectedPublicKeyHex": "26fec0f603c84f1dc4664581ebf3d4843a0897671253efa7eebc25aad7b016f5"
+    },
+    {
+      "id": "subkey-02-ego-package-signing-isolated",
+      "masterSeedHex": "2424242424242424242424242424242424242424242424242424242424242424",
+      "domain": "ifay.ego.package-signing.v1",
+      "signerFayId": "ifay_3atyjm7qw4dbchkbec5hy22t4pope5qc55aozxhrm722c6tlsf6q",
+      "keyIndex": 0,
+      "manifest": {
+        "egoSchema": "1.0",
+        "personaName": "Aria",
+        "weightsSha256": "0011223344556677"
+      },
+      "expectedPublicKeyHex": "d7c331ec3d0097a982aca13e8b1eefa4360fbd5148f8d2c84e4c614e92a08caf",
+      "expectedEnvelope": {
+        "version": "1.0",
+        "domain": "ifay.ego.package-signing.v1",
+        "signerFayId": "ifay_3atyjm7qw4dbchkbec5hy22t4pope5qc55aozxhrm722c6tlsf6q",
+        "keyIndex": 0,
+        "publicKeyHex": "d7c331ec3d0097a982aca13e8b1eefa4360fbd5148f8d2c84e4c614e92a08caf",
+        "payloadDigestHex": "97c728020c3165586e091049f1f5d1af5dda4e61e189e5ddb76e82b59491b452",
+        "signatureHex": "f64c734aff218a3e5b1fb7b8c9e6a0558d1aafb2d1c85b9c39ee37dc1848826437d9759f36a4b6151e7995b62c5f2b2ad662686209c786a9a59893336a0d0803"
+      }
+    }
+  ],
+  "dynamicCodes": [
+    {
+      "id": "dyn-01-human-valid-blind-resolution",
+      "exampleAuthorityEntropyHex": "6868686868686868686868686868686868686868686868686868686868686868",
+      "exampleHolderEntropyHex": "9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c",
+      "subjectId": "hid_wzwm7fn6bzqkc2icq45pbbn6iqsdhzkpmxlvubti5le7tqmov7lq",
+      "nonceHex": "10101010101010101010101010101010",
+      "issuedAtSec": 5000,
+      "expiresAtSec": 5300,
+      "verifyAtSec": 5100,
+      "expectedCode": "dyn_zvcozeifhiausy2vxe673lzvra",
+      "expectedOutcome": "accepted",
+      "expectedResolvedRef": "gmcref_oyyax7q6aix5szi5ynaww35h6uwlaotfbxj42yhikorsybr6xseq"
+    },
+    {
+      "id": "dyn-02-expired-rejected",
+      "exampleAuthorityEntropyHex": "6868686868686868686868686868686868686868686868686868686868686868",
+      "exampleHolderEntropyHex": "9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c",
+      "subjectId": "ifay_3atyjm7qw4dbchkbec5hy22t4pope5qc55aozxhrm722c6tlsf6q",
+      "nonceHex": "20202020202020202020202020202020",
+      "issuedAtSec": 5000,
+      "expiresAtSec": 5300,
+      "verifyAtSec": 5301,
+      "expectedOutcome": "rejected",
+      "expectedError": "DYNAMIC_CODE_EXPIRED"
+    },
+    {
+      "id": "dyn-03-replay-rejected",
+      "exampleAuthorityEntropyHex": "6868686868686868686868686868686868686868686868686868686868686868",
+      "exampleHolderEntropyHex": "9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c",
+      "subjectId": "cofay_evpjbnstakrrzfrczkok4beidw26pphq2u747pm2znma4svaffxq",
+      "nonceHex": "30303030303030303030303030303030",
+      "issuedAtSec": 5000,
+      "expiresAtSec": 5300,
+      "verifyAtSec": 5100,
+      "replaySecondPresentation": true,
+      "expectedOutcome": "rejected",
+      "expectedError": "DYNAMIC_CODE_REPLAYED"
+    },
+    {
+      "id": "dyn-04-organization-target-rejected",
+      "exampleAuthorityEntropyHex": "6868686868686868686868686868686868686868686868686868686868686868",
+      "exampleHolderEntropyHex": "9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c",
+      "subjectId": "org_vector-corp",
+      "nonceHex": "40404040404040404040404040404040",
+      "issuedAtSec": 5000,
+      "expiresAtSec": 5300,
+      "expectedOutcome": "rejected",
+      "expectedError": "DYNAMIC_CODE_TARGET_NOT_ALLOWED"
+    }
+  ],
+  "authExchangeAndReceipts": [
+    {
+      "id": "auth-01-prefix-grant-and-receipt",
+      "exampleAuthorityEntropyHex": "6868686868686868686868686868686868686868686868686868686868686868",
+      "humanId": "hid_wzwm7fn6bzqkc2icq45pbbn6iqsdhzkpmxlvubti5le7tqmov7lq",
+      "targetId": "ifay_3atyjm7qw4dbchkbec5hy22t4pope5qc55aozxhrm722c6tlsf6q",
+      "resourceRef": "https://api.ifay.example/v1/tasks",
+      "requestedResourceRef": "https://api.ifay.example/v1/tasks/active",
+      "scopeMode": "PREFIX",
+      "issuedAtSec": 6000,
+      "expiresAtSec": 7200,
+      "verifyAtSec": 6100,
+      "expectedGrantId": "grt_dultywhyqcwfgzu4pwqwswnaia",
+      "expectedReceiptId": "vrf_3dxgkjbyzwptq2q3p2vxd2pc74",
+      "expectedOutcome": "accepted"
+    },
+    {
+      "id": "auth-02-out-of-scope-rejected",
+      "exampleAuthorityEntropyHex": "6868686868686868686868686868686868686868686868686868686868686868",
+      "humanId": "hid_wzwm7fn6bzqkc2icq45pbbn6iqsdhzkpmxlvubti5le7tqmov7lq",
+      "targetId": "ifay_3atyjm7qw4dbchkbec5hy22t4pope5qc55aozxhrm722c6tlsf6q",
+      "resourceRef": "https://api.ifay.example/v1/tasks",
+      "requestedResourceRef": "https://api.ifay.example/v1/tasks-admin",
+      "scopeMode": "PREFIX",
+      "issuedAtSec": 6000,
+      "expiresAtSec": 7200,
+      "verifyAtSec": 6100,
+      "expectedOutcome": "rejected",
+      "expectedError": "GRANT_INVALID"
+    }
+  ],
+  "cascadingRevocation": [
+    {
+      "id": "cascade-01-revoke-human-invalidates-ifay-cofay-org-and-grants",
+      "targetKind": "HUMAN_ID",
+      "expectedGrantVerifyError": "GRANT_REVOKED",
+      "expectedEntityReissueError": "ENTITY_REVOKED"
+    },
+    {
+      "id": "cascade-02-revoke-parent-org-invalidates-descendant-orgs-cofays-and-grants",
+      "targetKind": "ORGANIZATION_ID",
+      "expectedGrantVerifyError": "GRANT_REVOKED",
+      "expectedEntityReissueError": "ENTITY_REVOKED"
+    },
+    {
+      "id": "cascade-03-revoke-ifay-strips-manager-and-revokes-ifay-grants-preserving-human",
+      "targetKind": "IFAY_ID",
+      "expectedGrantVerifyError": "GRANT_REVOKED",
+      "expectedEntityReissueError": "ENTITY_REVOKED"
+    },
+    {
+      "id": "cascade-04-revoke-cofay-invalidates-cofay-and-its-grants",
+      "targetKind": "COFAY_ID",
+      "expectedGrantVerifyError": "GRANT_REVOKED",
+      "expectedEntityReissueError": "ENTITY_REVOKED"
+    }
+  ],
+  "blindGmcRef": [
+    {
+      "id": "gmcref-01-primary-blind-salt",
+      "humanId": "hid_wzwm7fn6bzqkc2icq45pbbn6iqsdhzkpmxlvubti5le7tqmov7lq",
+      "userBlindSaltHex": "b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1",
+      "namespace": "ifay.gmc.natural-person.v1",
+      "expectedGmcRef": "gmcref_rjevjlcgztvxvrurorg46y3zhwmjk4zgsiv5czkrnzi7w44z7piq"
+    },
+    {
+      "id": "gmcref-02-rotated-blind-salt-unlinkable",
+      "humanId": "hid_wzwm7fn6bzqkc2icq45pbbn6iqsdhzkpmxlvubti5le7tqmov7lq",
+      "userBlindSaltHex": "d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2",
+      "namespace": "ifay.gmc.natural-person.v1",
+      "expectedGmcRef": "gmcref_t3nrr6iflwf5zhnbniwwda2yov3bvfyfbzcaccsnqzf7sggv7d4a"
+    }
+  ]
+}

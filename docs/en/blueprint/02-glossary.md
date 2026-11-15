@@ -1,6 +1,6 @@
 # Chapter 2: Glossary
 
-This chapter consolidates all terminology used in the FayID system. The first half is inherited from the [requirements.md Glossary](../../../.kiro/specs/fayid-identity-system/requirements.md#glossary); the second half adds extended terms introduced during the design phase.
+This chapter consolidates all terminology used in the FayID system. The first half aligns with [FayID 1.0 Conventions and Terminology](../specification/2025-10-25/01-conventions-and-versioning.md); the second half adds extended terms introduced during the design phase.
 
 > Convention: when later chapters in this blueprint use any of the following terms, the definitions in this chapter are authoritative. In case of ambiguity, the definitions in requirements.md take final precedence.
 

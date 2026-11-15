@@ -127,7 +127,7 @@ Dieses Kapitel listet die offenen Probleme auf, die die aktuelle Protokollschich
 
 ## Archivierung und Nachverfolgung
 
-Die obigen 10 Punkte werden in der bevorstehenden Aufgabe 8 nach `.kiro/specs/fayid-identity-system/open-questions.md` archiviert, wobei jeder Eintrag folgendermaßen markiert wird:
+Die obigen 10 Punkte wurden im Rahmen der [FayID-1.0-Spezifikation](../specification/2025-10-25/README.md) nachverfolgt und abgeschlossen, wobei jeder Eintrag folgendermaßen markiert ist:
 
 - **owner**: der Verantwortliche für den Punkt
 - **scope**: die betroffenen Subsysteme

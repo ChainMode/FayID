@@ -1,6 +1,15 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { deriveHumanIdentityFromSeed, deriveOpaqueRef } from "../../src/fayid-toolkit.mjs";
+import {
+  AccountDirectory,
+  deriveBlindGmcRef,
+  deriveEgoPackageSigningKey,
+  deriveEntityKeypair,
+  deriveHumanIdentityFromSeed,
+  deriveOpaqueRef,
+  derivePurposeSubkey,
+  subkeyDomains,
+} from "../../src/fayid-toolkit.mjs";
 
 const VECTORS_ROOT = resolve(import.meta.dirname, "..");
 
@@ -119,4 +128,211 @@ for (const sc of scenarios) {
   writeFileSync(resolve(targetDir, "expected.json"), JSON.stringify(sc.expected, null, 2) + "\n");
 }
 
-console.log(`Generated ${scenarios.length} FayID vector scenarios.`);
+// Generate deterministic FayID 1.0 crypto & cascading revocation vectors
+const vecMasterSeed = Buffer.alloc(32, 0x24);
+const vecAuthorityEntropy = Buffer.alloc(32, 0x68);
+const vecHolderEntropy = Buffer.alloc(32, 0x9c);
+const vecBlindSalt1 = Buffer.alloc(32, 0xb1);
+const vecBlindSalt2 = Buffer.alloc(32, 0xd2);
+
+const vecHid = deriveEntityKeypair(vecMasterSeed, "hid", 0).value;
+const vecIfay = deriveEntityKeypair(vecMasterSeed, "ifay", 0).value;
+const vecCofay = deriveEntityKeypair(vecMasterSeed, "cofay", 0).value;
+const vecEntitySub = derivePurposeSubkey(vecMasterSeed, subkeyDomains.ENTITY, "ifay:0").value;
+const vecEgoKey = deriveEgoPackageSigningKey(vecMasterSeed, vecIfay.entityId, 0).value;
+const vecManifest = { egoSchema: "1.0", personaName: "Aria", weightsSha256: "0011223344556677" };
+const vecEnvelope = vecEgoKey.signEgoPackageManifest(vecManifest);
+
+const dynDir = new AccountDirectory({ authoritySecret: vecAuthorityEntropy });
+dynDir.registerHuman(vecHid.entityId);
+dynDir.registerIFay(vecIfay.entityId, vecHid.entityId);
+dynDir.registerCoFay(vecCofay.entityId, vecHid.entityId, vecHid.entityId);
+dynDir.registerOrganization("org_vector-corp", vecHid.entityId);
+
+const dynHid = dynDir.issueDynamicCode({
+  subjectId: vecHid.entityId,
+  holderSecret: vecHolderEntropy,
+  nonce: Buffer.alloc(16, 0x10),
+  issuedAtSec: 5000,
+  expiresAtSec: 5300,
+});
+const dynHidResolved = dynDir.verifyDynamicCode(dynHid.value.code, 5100);
+
+const grantDir = new AccountDirectory({ authoritySecret: vecAuthorityEntropy });
+grantDir.registerHuman(vecHid.entityId);
+grantDir.registerIFay(vecIfay.entityId, vecHid.entityId);
+const issuedGrant = grantDir.issueAuthGrant({
+  targetId: vecIfay.entityId,
+  actorId: vecIfay.entityId,
+  resourceRef: "https://api.ifay.example/v1/tasks",
+  scopeMode: "PREFIX",
+  legacySourceKind: "ACCESS_TOKEN",
+  legacyIssuer: "idp.ifay.example",
+  legacySubject: "subject-vec-01",
+  issuedAtSec: 6000,
+  expiresAtSec: 7200,
+});
+const verifiedGrant = grantDir.verifyAuthGrant({
+  grantId: issuedGrant.value.grantId,
+  requestedResourceRef: "https://api.ifay.example/v1/tasks/active",
+  nowSec: 6100,
+});
+
+const blind1 = deriveBlindGmcRef(vecHid.entityId, vecBlindSalt1, subkeyDomains.GMC_NATURAL_PERSON);
+const blind2 = deriveBlindGmcRef(vecHid.entityId, vecBlindSalt2, subkeyDomains.GMC_NATURAL_PERSON);
+
+const cryptoBundle = {
+  version: "1.0",
+  edition: "2025-10-25",
+  subkeyDerivation: [
+    {
+      id: "subkey-01-entity-ed25519",
+      masterSeedHex: vecMasterSeed.toString("hex"),
+      domain: subkeyDomains.ENTITY,
+      context: "ifay:0",
+      expectedEntityId: vecIfay.entityId,
+      expectedPublicKeyHex: vecEntitySub.publicKeyHex,
+    },
+    {
+      id: "subkey-02-ego-package-signing-isolated",
+      masterSeedHex: vecMasterSeed.toString("hex"),
+      domain: subkeyDomains.EGO_PACKAGE_SIGNING,
+      signerFayId: vecIfay.entityId,
+      keyIndex: 0,
+      manifest: vecManifest,
+      expectedPublicKeyHex: vecEgoKey.publicKeyHex,
+      expectedEnvelope: vecEnvelope,
+    },
+  ],
+  dynamicCodes: [
+    {
+      id: "dyn-01-human-valid-blind-resolution",
+      exampleAuthorityEntropyHex: vecAuthorityEntropy.toString("hex"),
+      exampleHolderEntropyHex: vecHolderEntropy.toString("hex"),
+      subjectId: vecHid.entityId,
+      nonceHex: Buffer.alloc(16, 0x10).toString("hex"),
+      issuedAtSec: 5000,
+      expiresAtSec: 5300,
+      verifyAtSec: 5100,
+      expectedCode: dynHid.value.code,
+      expectedOutcome: "accepted",
+      expectedResolvedRef: dynHidResolved.value.resolvedRef,
+    },
+    {
+      id: "dyn-02-expired-rejected",
+      exampleAuthorityEntropyHex: vecAuthorityEntropy.toString("hex"),
+      exampleHolderEntropyHex: vecHolderEntropy.toString("hex"),
+      subjectId: vecIfay.entityId,
+      nonceHex: Buffer.alloc(16, 0x20).toString("hex"),
+      issuedAtSec: 5000,
+      expiresAtSec: 5300,
+      verifyAtSec: 5301,
+      expectedOutcome: "rejected",
+      expectedError: "DYNAMIC_CODE_EXPIRED",
+    },
+    {
+      id: "dyn-03-replay-rejected",
+      exampleAuthorityEntropyHex: vecAuthorityEntropy.toString("hex"),
+      exampleHolderEntropyHex: vecHolderEntropy.toString("hex"),
+      subjectId: vecCofay.entityId,
+      nonceHex: Buffer.alloc(16, 0x30).toString("hex"),
+      issuedAtSec: 5000,
+      expiresAtSec: 5300,
+      verifyAtSec: 5100,
+      replaySecondPresentation: true,
+      expectedOutcome: "rejected",
+      expectedError: "DYNAMIC_CODE_REPLAYED",
+    },
+    {
+      id: "dyn-04-organization-target-rejected",
+      exampleAuthorityEntropyHex: vecAuthorityEntropy.toString("hex"),
+      exampleHolderEntropyHex: vecHolderEntropy.toString("hex"),
+      subjectId: "org_vector-corp",
+      nonceHex: Buffer.alloc(16, 0x40).toString("hex"),
+      issuedAtSec: 5000,
+      expiresAtSec: 5300,
+      expectedOutcome: "rejected",
+      expectedError: "DYNAMIC_CODE_TARGET_NOT_ALLOWED",
+    },
+  ],
+  authExchangeAndReceipts: [
+    {
+      id: "auth-01-prefix-grant-and-receipt",
+      exampleAuthorityEntropyHex: vecAuthorityEntropy.toString("hex"),
+      humanId: vecHid.entityId,
+      targetId: vecIfay.entityId,
+      resourceRef: "https://api.ifay.example/v1/tasks",
+      requestedResourceRef: "https://api.ifay.example/v1/tasks/active",
+      scopeMode: "PREFIX",
+      issuedAtSec: 6000,
+      expiresAtSec: 7200,
+      verifyAtSec: 6100,
+      expectedGrantId: issuedGrant.value.grantId,
+      expectedReceiptId: verifiedGrant.value.receipt.receiptId,
+      expectedOutcome: "accepted",
+    },
+    {
+      id: "auth-02-out-of-scope-rejected",
+      exampleAuthorityEntropyHex: vecAuthorityEntropy.toString("hex"),
+      humanId: vecHid.entityId,
+      targetId: vecIfay.entityId,
+      resourceRef: "https://api.ifay.example/v1/tasks",
+      requestedResourceRef: "https://api.ifay.example/v1/tasks-admin",
+      scopeMode: "PREFIX",
+      issuedAtSec: 6000,
+      expiresAtSec: 7200,
+      verifyAtSec: 6100,
+      expectedOutcome: "rejected",
+      expectedError: "GRANT_INVALID",
+    },
+  ],
+  cascadingRevocation: [
+    {
+      id: "cascade-01-revoke-human-invalidates-ifay-cofay-org-and-grants",
+      targetKind: "HUMAN_ID",
+      expectedGrantVerifyError: "GRANT_REVOKED",
+      expectedEntityReissueError: "ENTITY_REVOKED",
+    },
+    {
+      id: "cascade-02-revoke-parent-org-invalidates-descendant-orgs-cofays-and-grants",
+      targetKind: "ORGANIZATION_ID",
+      expectedGrantVerifyError: "GRANT_REVOKED",
+      expectedEntityReissueError: "ENTITY_REVOKED",
+    },
+    {
+      id: "cascade-03-revoke-ifay-strips-manager-and-revokes-ifay-grants-preserving-human",
+      targetKind: "IFAY_ID",
+      expectedGrantVerifyError: "GRANT_REVOKED",
+      expectedEntityReissueError: "ENTITY_REVOKED",
+    },
+    {
+      id: "cascade-04-revoke-cofay-invalidates-cofay-and-its-grants",
+      targetKind: "COFAY_ID",
+      expectedGrantVerifyError: "GRANT_REVOKED",
+      expectedEntityReissueError: "ENTITY_REVOKED",
+    },
+  ],
+  blindGmcRef: [
+    {
+      id: "gmcref-01-primary-blind-salt",
+      humanId: vecHid.entityId,
+      userBlindSaltHex: vecBlindSalt1.toString("hex"),
+      namespace: subkeyDomains.GMC_NATURAL_PERSON,
+      expectedGmcRef: blind1.value,
+    },
+    {
+      id: "gmcref-02-rotated-blind-salt-unlinkable",
+      humanId: vecHid.entityId,
+      userBlindSaltHex: vecBlindSalt2.toString("hex"),
+      namespace: subkeyDomains.GMC_NATURAL_PERSON,
+      expectedGmcRef: blind2.value,
+    },
+  ],
+};
+
+writeFileSync(
+  resolve(VECTORS_ROOT, "crypto-and-revocation-vectors.json"),
+  JSON.stringify(cryptoBundle, null, 2) + "\n",
+);
+
+console.log(`Generated ${scenarios.length} directory scenarios and crypto-and-revocation-vectors.json.`);

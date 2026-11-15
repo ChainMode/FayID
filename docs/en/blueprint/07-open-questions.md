@@ -127,7 +127,7 @@ This chapter lists the open problems that the current protocol layer leaves unde
 
 ## Archival and Tracking
 
-The 10 items above will be archived to `.kiro/specs/fayid-identity-system/open-questions.md` in the upcoming Task 8, with each entry tagged by:
+The 10 items above were tracked and resolved into the [FayID 1.0 Specification](../specification/2025-10-25/README.md), with each entry tagged by:
 
 - **owner**: the steward of the issue
 - **scope**: the affected subsystems

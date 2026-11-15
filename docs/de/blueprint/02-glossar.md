@@ -1,6 +1,6 @@
 # Kapitel 2: Glossar
 
-Dieses Kapitel führt die gesamte im FayID-System verwendete Terminologie zusammen. Die erste Hälfte ist aus dem [Glossar in requirements.md](../../../.kiro/specs/fayid-identity-system/requirements.md#glossary) übernommen; die zweite Hälfte ergänzt erweiterte Begriffe, die während der Entwurfsphase eingeführt wurden.
+Dieses Kapitel führt die gesamte im FayID-System verwendete Terminologie zusammen. Die erste Hälfte entspricht den [Konventionen und Begriffen in FayID 1.0](../specification/2025-10-25/01-conventions-and-versioning.md); die zweite Hälfte ergänzt erweiterte Begriffe aus der Entwurfsphase.
 
 > Konvention: Wenn spätere Kapitel dieses Blueprints einen der folgenden Begriffe verwenden, sind die Definitionen in diesem Kapitel maßgeblich. Bei Mehrdeutigkeit haben die Definitionen in requirements.md endgültigen Vorrang.
 
