@@ -1,6 +1,11 @@
 # FayID
 
-Self-Sovereign (Holder-of-Key) accountability identity protocol (**FayID `1.0` Final**, edition `2025-10-25`) for the iFay ecosystem, binding every individual `iFay` (`1:N`) non-transferably to a unique **Human Prime** (`hid_`) and every shared-role `coFay` in a single ownership layer to one accountable `HumanID` (`hid_`) or `OrganizationID` (`org_`).
+[![Docs CI](https://github.com/ChainMode/FayID/actions/workflows/docs-ci.yml/badge.svg)](https://github.com/ChainMode/FayID/actions/workflows/docs-ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Docs: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](./LICENSE-DOCS)
+[![Website: ifay.ai](https://img.shields.io/badge/Website-ifay.ai-blue)](https://ifay.ai)
+
+**FayID** (`1.0` Final, edition `2025-10-25`) is the self-sovereign (Holder-of-Key) cryptographic identity and accountability protocol of the **iFay** ecosystem. It binds every personal `iFay` (`1:N`, non-transferably) to a single **Human Prime** (`hid_`) and every public-role `coFay` in a single ownership layer to one accountable `HumanID` (`hid_`) or `OrganizationID` (`org_`).
 
 ## Canonical Identifier Format
 
