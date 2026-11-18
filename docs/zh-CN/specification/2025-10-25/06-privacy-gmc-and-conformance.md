@@ -74,4 +74,4 @@ gmcref = "gmcref_" || base32EncodeNoPad(digest)
 2. **标识符与资源匹配合规**：完整实现第 2 章八类前缀规范化、严格拒绝不修复输入规则及 `resourceRef` 的 `EXACT` / `PREFIX` 边界匹配。
 3. **密码学与根密钥隔离合规**：完整实现第 3 章 Ed25519、SHA-256、HKDF-SHA256 五类域分离子密钥派生与 RFC 8785 JCS 签名，且在 `.ego` 包等全部出站载荷中严格使用 `ifay.ego.package-signing.v1` 子密钥，保证根种子与私钥零出站。
 4. **账户模型与级联吊销合规**：完整强制执行第 4 章单层 `coFay` 所有权、自然人 `Steward`、双向同意单父无环组织树，以及第 5 章 `dyn_` 防重放、`grt_` / `vrf_` 作用域兑换与四类主体的确定性级联吊销。
-5. **官方测试向量全绿**：100% 通过本仓库 [vectors/account-hierarchy-vectors.json](../../../../vectors/account-hierarchy-vectors.json) 与 [vectors/crypto-and-revocation-vectors.json](../../../../vectors/crypto-and-revocation-vectors.json) 中的全部正向与负向一致性测试向量。
+5. **官方测试向量全绿**：100% 通过本仓库 [vectors/hierarchy/](../../../../vectors/hierarchy) 与 [vectors/crypto-and-revocation-vectors.json](../../../../vectors/crypto-and-revocation-vectors.json) 中的全部正向与负向一致性测试向量。

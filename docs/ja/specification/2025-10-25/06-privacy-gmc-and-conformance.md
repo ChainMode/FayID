@@ -74,4 +74,4 @@ FayID 1.0 に準拠する実装は、以下の 24 項目の安定したエラー
 2. **識別子およびリソースマッチング適合**：第 2 章で規定する 8 種類のプレフィックス正規化、暗黙的修復を行わない厳格拒否規則、および `resourceRef` の `EXACT` / `PREFIX` 境界マッチングを完全に実装すること。
 3. **暗号スイートおよびルート鍵分離適合**：第 3 章で規定する Ed25519、SHA-256、HKDF-SHA256 による 5 種類のドメイン分離サブ鍵派生、および RFC 8785 JCS 署名を完全に実装し、`.ego` パッケージを含むすべての送信ペイロードで `ifay.ego.package-signing.v1` サブ鍵を厳格に使用して、ルートシードおよび秘密鍵の外部送出ゼロを保証すること。
 4. **アカウントモデルおよびカスケード失効適合**：第 4 章の単層 `coFay` 所有権、自然人 `Steward`、双方向同意に基づく単一親・非巡回組織ツリー、ならびに第 5 章の `dyn_` リプレイ防止、`grt_` / `vrf_` スコープ付き交換、および 4 種類の主体に対する決定論的カスケード失効を完全に強制すること。
-5. **公式テストベクター全件合格**：本リポジトリの [vectors/account-hierarchy-vectors.json](../../../../vectors/account-hierarchy-vectors.json) および [vectors/crypto-and-revocation-vectors.json](../../../../vectors/crypto-and-revocation-vectors.json) に含まれるすべての正常系および異常系適合性テストベクターに 100% 合格すること。
+5. **公式テストベクター全件合格**：本リポジトリの [vectors/hierarchy/](../../../../vectors/hierarchy) および [vectors/crypto-and-revocation-vectors.json](../../../../vectors/crypto-and-revocation-vectors.json) に含まれるすべての正常系および異常系適合性テストベクターに 100% 合格すること。

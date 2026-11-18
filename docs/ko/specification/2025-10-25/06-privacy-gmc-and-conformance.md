@@ -74,4 +74,4 @@ FayID 1.0을 준수하는 구현체는 **반드시** 다음 24개 고정 오류 
 2. **식별자 및 리소스 매칭 적합성**: 제2장의 8종 접두사 정규화, 입력 무보정 엄격 거부 규칙, 그리고 `resourceRef`의 `EXACT` / `PREFIX` 경계 매칭을 완전히 구현해야 한다.
 3. **암호학 및 루트 키 격리 적합성**: 제3장의 Ed25519, SHA-256, HKDF-SHA256 5종 도메인 분리 서브키 파생 및 RFC 8785 JCS 서명을 완전히 구현하고, `.ego` 패키지를 비롯한 모든 아웃바운드 페이로드에서 `ifay.ego.package-signing.v1` 서브키만 엄격히 사용하여 루트 시드와 개인 키의 외부 유출 제로를 보장해야 한다.
 4. **계정 모델 및 연쇄 폐기 적합성**: 제4장의 단일 계층 `coFay` 소유권, 자연인 `Steward`, 양방향 합의 기반 단일 상위 무순환 조직 트리와 제5장의 `dyn_` 재전송 방지, `grt_` / `vrf_` 범위 지정 교환, 4종 주체의 결정론적 연쇄 폐기를 빠짐없이 강제 집행해야 한다.
-5. **공식 테스트 벡터 전수 통과**: 본 저장소의 [vectors/account-hierarchy-vectors.json](../../../../vectors/account-hierarchy-vectors.json) 및 [vectors/crypto-and-revocation-vectors.json](../../../../vectors/crypto-and-revocation-vectors.json)에 수록된 모든 정상 케이스와 오류 케이스 적합성 테스트 벡터를 100% 통과해야 한다.
+5. **공식 테스트 벡터 전수 통과**: 본 저장소의 [vectors/hierarchy/](../../../../vectors/hierarchy) 및 [vectors/crypto-and-revocation-vectors.json](../../../../vectors/crypto-and-revocation-vectors.json)에 수록된 모든 정상 케이스와 오류 케이스 적합성 테스트 벡터를 100% 통과해야 한다.

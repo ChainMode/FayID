@@ -14,6 +14,11 @@
 !/CONTRIBUTING.md
 !/CODE_OF_CONDUCT.md
 !/.gitignore
+!/.github/
+/.github/*
+!/.github/workflows/
+/.github/workflows/*
+!/.github/workflows/docs-ci.yml
 
 # 构建与系统噪声
 .DS_Store

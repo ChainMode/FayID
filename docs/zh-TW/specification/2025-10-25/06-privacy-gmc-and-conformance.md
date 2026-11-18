@@ -74,4 +74,4 @@ gmcref = "gmcref_" || base32EncodeNoPad(digest)
 2. **識別碼與資源比對合規**：完整實作第 2 章八類前綴正規化、嚴格拒絕不修復輸入規則及 `resourceRef` 的 `EXACT` / `PREFIX` 邊界比對。
 3. **密碼學與根金鑰隔離合規**：完整實作第 3 章 Ed25519、SHA-256、HKDF-SHA256 五類域分離子金鑰派生與 RFC 8785 JCS 數位簽章，且在 `.ego` 套件等全部出站酬載中嚴格使用 `ifay.ego.package-signing.v1` 子金鑰，保證根種子與私鑰零出站。
 4. **帳戶模型與連鎖撤銷合規**：完整強制執行第 4 章單層 `coFay` 所有權、自然人 `Steward`、雙向同意單父無環組織樹，以及第 5 章 `dyn_` 防重放、`grt_` / `vrf_` 作用域兌換與四類主體的確定性連鎖撤銷。
-5. **官方測試向量全綠**：100% 通過本儲存庫 [vectors/account-hierarchy-vectors.json](../../../../vectors/account-hierarchy-vectors.json) 與 [vectors/crypto-and-revocation-vectors.json](../../../../vectors/crypto-and-revocation-vectors.json) 中的全部正向與負向一致性測試向量。
+5. **官方測試向量全綠**：100% 通過本儲存庫 [vectors/hierarchy/](../../../../vectors/hierarchy) 與 [vectors/crypto-and-revocation-vectors.json](../../../../vectors/crypto-and-revocation-vectors.json) 中的全部正向與負向一致性測試向量。
