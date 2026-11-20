@@ -1,10 +1,27 @@
 {
   "name": "@ifay/fayid",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "license": "MIT",
   "type": "module",
+  "main": "./src/index.mjs",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.mjs"
+    },
+    "./verify": "./src/verify-with-fayid.mjs",
+    "./platform-registration": "./src/platform-registration.mjs",
+    "./auth-exchange": "./src/auth-exchange-vault.mjs",
+    "./toolkit": "./src/fayid-toolkit.mjs"
+  },
+  "bin": {
+    "fayid": "./bin/fayid-cli.mjs",
+    "fayid-auth-exchange": "./bin/fayid-auth-exchange.mjs"
+  },
   "scripts": {
+    "demo": "node src/demo.mjs",
     "test": "node --test schema/draft/testkit/test/*.test.js tests/*.test.mjs && node vectors/_tools/verify.mjs"
   }
 }

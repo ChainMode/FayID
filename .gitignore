@@ -4,6 +4,7 @@
 !/schema/
 !/schemas/
 !/src/
+!/bin/
 !/vectors/
 !/tests/
 !/package.json
