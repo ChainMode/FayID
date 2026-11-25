@@ -7,6 +7,8 @@
 
 **FayID** (`1.0` Final, edition `2025-10-25`) is the self-sovereign (Holder-of-Key) cryptographic identity, stealth opt-in platform registration, and legacy credential vault protocol of the **iFay** ecosystem. It binds every personal `iFay` (`1:N`, non-transferably) to a single **Human Prime** (`hid_`) and every public-role `coFay` in a single ownership layer to one accountable `HumanID` (`hid_`) or `OrganizationID` (`org_`).
 
+> **Version & Distribution Alignment**: Normative Specification = **`FayID 1.0` (`2025-10-25`)** · Reference Toolkit & `Auth Exchange` Release = **[`v1.1.0`](https://github.com/ChainMode/FayID/releases/tag/v1.1.0)** (`package.json` `1.1.0`, distributed via GitHub Release / source ESM).
+
 ## Canonical Identifier Format
 
 All cryptographic FayID identifiers follow `<prefix>_<lowercase-rfc4648-base32-nopad>` (`org_` additionally permits lowercase slug characters `[a-z0-9-]+`):
